@@ -5,7 +5,23 @@
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	std::cout << "***********************************************************************************************************" << std::endl;
+	std::cout << "Bienvenido al juego" << std::endl;
+	std::cout << "Elija el tipo de juego que desea jugar, 1 es a la baja y 2 es a la alta" << std::endl;
+	std::cout << "Ingrese un numero entre 1 y 2: " << std::endl;
+	std::cout << "***********************************************************************************************************" << std::endl;
+	char numero;
+	std::cin >> numero;
+    if(numero== '2') {
+		std::cout << "Se juega a la alta" << std::endl;
+		std::cout << "***********************************************************************************************************" << std::endl;
+
+	}
+	else {
+		std::cout << "se juega a la baja" << std::endl;
+		std::cout << "***********************************************************************************************************" << std::endl;
+	}
+
 }
 
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
