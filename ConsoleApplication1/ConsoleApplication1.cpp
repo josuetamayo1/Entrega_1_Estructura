@@ -2,9 +2,11 @@
 //
 
 #include <iostream>
+#include "carta.h"
 
 int main()
 {
+	Carta carta1(1, 'R');
 	std::cout << "***********************************************************************************************************" << std::endl;
 	std::cout << "Bienvenido al juego" << std::endl;
 	std::cout << "Elija el tipo de juego que desea jugar, 1 es a la baja y 2 es a la alta" << std::endl;
