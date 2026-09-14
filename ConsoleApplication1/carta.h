@@ -1,15 +1,17 @@
 #include <iostream>
+#pragma once
 
 
 class Carta {
-public:
+private:
 	int numero;
 	char color;
+	
+public:
 	Carta(int _numero, char _color) {
 		numero = _numero;
 		color = _color;
 	}
-private:
 	int getnumero() {
 		return numero;
 	}
