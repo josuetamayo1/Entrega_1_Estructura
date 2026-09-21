@@ -26,6 +26,9 @@
     <ClInclude Include="ronda.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="juego.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
     <ClInclude Include="jugadores.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
