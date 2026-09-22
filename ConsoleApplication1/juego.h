@@ -31,7 +31,7 @@ public:
 	bool verificarFinal() {
 		// Lógica para verificar si el juego ha terminado
 	}
-	´void mostrarResultados() {
+	void mostrarResultados() {
 		// Lógica para mostrar los resultados finales del juego
 	}
 };
