@@ -6,52 +6,35 @@
 class Jugadores {
 private:
     int id;
-    std::vector<Carta*> mazo;
+    std::vector<Carta> mazo;
     int puntaje;
 
 public:
-    Jugadores(int _id, std::vector<Carta*> _mazo, int _puntaje) {
+    Jugadores(int _id, std::vector<Carta> _mazo, int _puntaje) {
         id = _id;
         mazo = _mazo;
         puntaje = _puntaje;
     }
 
-    Carta* jugarCarta(char colorElegido, bool esAlza) {
-        int indiceElegido = -1;
-
+    Carta jugarCarta() {
+        std::cout << "Jugador " << id << ", estas son tus cartas:" << std::endl;
         for (int i = 0; i < mazo.size(); i++) {
-            if (mazo[i]->getcolor() == colorElegido) {
-                if (indiceElegido == -1) {
-                    indiceElegido = i;
-                }
-                else if (esAlza && mazo[i]->getnumero() > mazo[indiceElegido]->getnumero()) {
-                    indiceElegido = i;
-                }
-                else if (!esAlza && mazo[i]->getnumero() < mazo[indiceElegido]->getnumero()) {
-                    indiceElegido = i;
-                }
-            }
+            std::cout << i << ": Numero " << mazo[i].getnumero() << ", Color " << mazo[i].getcolor() << std::endl;
         }
 
-        if (indiceElegido == -1) {
-            return nullptr;
-        }
+        int indiceElegido;
+        std::cout << "Elige el numero de la carta que quieres jugar: ";
+        std::cin >> indiceElegido;
 
-        Carta* cartaJugada = mazo[indiceElegido];
+        Carta cartaJugada = mazo[indiceElegido];
         mazo.erase(mazo.begin() + indiceElegido);
         return cartaJugada;
     }
 
-    void ganarCartas(std::vector<Carta*> cartasGanadas) {
+    void ganarCartas(std::vector<Carta> cartasGanadas) {
         puntaje += cartasGanadas.size();
     }
 
-    void perderCartas() {
-        // El jugador solo pierde la carta que ya jugó (removida en jugarCarta)
-    }
-
-    // CORREGIDO: ahora el jugador elige manualmente el color Y si es alza o baja
-    // colorElegido y esAlza se pasan por referencia para devolver ambos valores
     void elegirJuego(char& colorElegido, bool& esAlza) {
         std::cout << "Jugador " << id << ", elige un color (ej: R, A, V): ";
         std::cin >> colorElegido;
