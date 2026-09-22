@@ -22,16 +22,44 @@ public:
 	void elegirJuego() {
 		// Lógica para que el jugador decidor elija el color/tipo de juego
 	}
-	void jugarRonda() {
-		// Lógica para ejecutar una ronda completa del juego
-	}
-	void cerrarRonda() {
-		// Lógica para cerrar la ronda, determinar el ganador y actualizar puntajes
-	}
-	bool verificarFinal() {
-		// Lógica para verificar si el juego ha terminado
-	}
-	void mostrarResultados() {
-		// Lógica para mostrar los resultados finales del juego
-	}
-};
+    void jugarRonda() {
+        // Lógica para ejecutar una ronda completa del juego
+        void cerrarRonda() {
+            int idGanador = rondaActual.ganadorRonda();
+            rondaActual.resultadoRonda();
+
+            std::vector<Carta> cartasGanadas = rondaActual.getCartasJugadas();
+            jugadores[idGanador].ganarCartas(cartasGanadas);
+
+            jugadorDecidor = idGanador;
+
+            rondaActual.reiniciarRonda();
+        }
+
+        bool verificarFinal() {
+            for (int i = 0; i < jugadores.size(); i++) {
+                if (!jugadores[i].tieneCartas()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        void mostrarResultados() {
+            int mejorPuntaje = -1;
+            int idGanador = -1;
+
+            std::cout << "--- Resultados finales ---" << std::endl;
+
+            for (int i = 0; i < jugadores.size(); i++) {
+                int puntaje = jugadores[i].getPuntaje();
+                std::cout << "Jugador " << i << ": " << puntaje << " puntos" << std::endl;
+
+                if (puntaje > mejorPuntaje) {
+                    mejorPuntaje = puntaje;
+                    idGanador = i;
+                }
+            }
+
+            std::cout << "\nGana el jugador " << idGanador << " con " << mejorPuntaje << " puntos." << std::endl;
+        };
