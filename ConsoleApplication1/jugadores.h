@@ -51,4 +51,11 @@ public:
     void recibirCarta(Carta carta) {
         mazo.push_back(carta);
     }
+    std::vector<Carta> getMazo() {
+        return mazo;
+    }
+    void reiniciarJugador(int puntajeNuevo) {
+        mazo.clear();
+        puntaje = puntajeNuevo;
+    }
 };

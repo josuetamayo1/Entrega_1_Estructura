@@ -6,6 +6,7 @@
 #include "carta.h"
 #include "jugadores.h"
 #include "ronda.h"
+#include <fstream>
 
 class Juego {
 private:
@@ -108,13 +109,81 @@ public:
 			<< " con " << mejorPuntaje << " puntos." << std::endl;
 	}
 
-	void jugar() {
-		iniciarJuego();
+	void jugar(bool cargarDesdeArchivo, std::string nombreArchivo) {
+		if (cargarDesdeArchivo) {
+			cargarPartida(nombreArchivo);
+		}
+		else {
+			iniciarJuego();
+		}
+
 		while (!verificarFinal()) {
 			elegirJuego();
 			jugarRonda();
 			cerrarRonda();
+
+			if (!verificarFinal()) {
+				char opcion;
+				std::cout << "¿Quieres seguir jugando o guardar y pausar? (s = seguir, g = guardar): ";
+				std::cin >> opcion;
+
+				if (opcion == 'g' || opcion == 'G') {
+					std::string nombreGuardado;
+					std::cout << "Nombre del archivo para guardar: ";
+					std::cin >> nombreGuardado;
+					guardarPartida(nombreGuardado);
+					return;
+				}
+			}
 		}
+
 		mostrarResultados();
+	}
+	void guardarPartida(std::string nombreArchivo) {
+		std::ofstream archivo(nombreArchivo);
+
+		archivo << jugadorDecidor << std::endl;
+		archivo << ronda << std::endl;
+
+		for (int i = 0; i < (int)jugadores.size(); i++) {
+			std::vector<Carta> mano = jugadores[i]->getMazo();
+
+			archivo << i << " " << jugadores[i]->getPuntaje() << " " << mano.size() << std::endl;
+
+			for (int j = 0; j < (int)mano.size(); j++) {
+				archivo << mano[j].getnumero() << " " << mano[j].getcolor() << std::endl;
+			}
+		}
+
+		archivo.close();
+		std::cout << "Partida guardada en " << nombreArchivo << std::endl;
+	}
+	void cargarPartida(std::string nombreArchivo) {
+		std::ifstream archivo(nombreArchivo);
+
+		if (!archivo.is_open()) {
+			std::cout << "No se pudo abrir el archivo " << nombreArchivo << std::endl;
+			return;
+		}
+
+		archivo >> jugadorDecidor;
+		archivo >> ronda;
+
+		for (int i = 0; i < (int)jugadores.size(); i++) {
+			int idLeido, puntajeLeido, cantidadCartas;
+			archivo >> idLeido >> puntajeLeido >> cantidadCartas;
+
+			jugadores[i]->reiniciarJugador(puntajeLeido);
+
+			for (int j = 0; j < cantidadCartas; j++) {
+				int numero;
+				char color;
+				archivo >> numero >> color;
+				jugadores[i]->recibirCarta(Carta(numero, color));
+			}
+		}
+
+		archivo.close();
+		std::cout << "Partida cargada desde " << nombreArchivo << std::endl;
 	}
 };
