@@ -7,20 +7,26 @@
 #include "jugadores.h"
 #include "ronda.h"
 
-class  Juego {
+class Juego {
 private:
 	std::vector<Jugadores*> jugadores;
-	std::vector<Carta*> mazo;
+	std::vector<Carta> mazo;
 	int jugadorDecidor;
 	int ronda;
+	Ronda rondaActual;
+
 public:
-	Juego(std::vector<Jugadores*> _jugadores, std::vector<Carta*> _mazo, int _jugadorDecidor, int _ronda) {
+	Juego(std::vector<Jugadores*> _jugadores) : rondaActual('R', 'a') {
 		jugadores = _jugadores;
-		mazo = _mazo;
-		jugadorDecidor = _jugadorDecidor;
-		ronda = _ronda;
+		jugadorDecidor = 0;
+		ronda = 0;
 	}
+
 	void iniciarJuego() {
+		mazo.clear();
+		ronda = 0;
+
+		
 		for (int numero = 0; numero <= 10; numero++) {
 			mazo.push_back(Carta(numero, 'R'));
 			mazo.push_back(Carta(numero, 'A'));
@@ -32,22 +38,24 @@ public:
 		std::shuffle(mazo.begin(), mazo.end(), g);
 
 		for (int id = 0; id < 4; id++) {
-			std::vector<Carta> manoJugador;
 			for (int i = 0; i < 7; i++) {
-				manoJugador.push_back(mazo.back());
+				jugadores[id]->recibirCarta(mazo.back());
 				mazo.pop_back();
 			}
-			jugadores.push_back(Jugadores(id, manoJugador, 0));
 		}
 
 		std::uniform_int_distribution<int> dist(0, 3);
 		jugadorDecidor = dist(g);
+
+		std::cout << "Se reparte. Empieza eligiendo el modo el Jugador "
+			<< jugadorDecidor << std::endl;
 	}
 
 	void elegirJuego() {
 		char colorElegido;
 		bool esAlza;
-		jugadores[jugadorDecidor].elegirJuego(colorElegido, esAlza);
+
+		jugadores[jugadorDecidor]->elegirJuego(colorElegido, esAlza);
 
 		char eleccion = esAlza ? 'a' : 'b';
 		rondaActual = Ronda(colorElegido, eleccion);
@@ -59,7 +67,7 @@ public:
 	void jugarRonda() {
 		for (int i = 0; i < 4; i++) {
 			int idx = (jugadorDecidor + i) % 4;
-			Carta cartaJugada = jugadores[idx].jugarCarta();
+			Carta cartaJugada = jugadores[idx]->jugarCarta();
 			rondaActual.recibirCarta(cartaJugada, idx);
 		}
 	}
@@ -69,20 +77,15 @@ public:
 		rondaActual.resultadoRonda();
 
 		std::vector<Carta> cartasGanadas = rondaActual.getCartasJugadas();
-		jugadores[idGanador].ganarCartas(cartasGanadas);
+		jugadores[idGanador]->ganarCartas(cartasGanadas);
 
 		jugadorDecidor = idGanador;
-
 		rondaActual.reiniciarRonda();
+		ronda++;
 	}
 
 	bool verificarFinal() {
-		for (int i = 0; i < jugadores.size(); i++) {
-			if (!jugadores[i].tieneCartas()) {
-				return true;
-			}
-		}
-		return false;
+		return ronda >= 7;
 	}
 
 	void mostrarResultados() {
@@ -91,8 +94,8 @@ public:
 
 		std::cout << "--- Resultados finales ---" << std::endl;
 
-		for (int i = 0; i < jugadores.size(); i++) {
-			int puntaje = jugadores[i].getPuntaje();
+		for (int i = 0; i < (int)jugadores.size(); i++) {
+			int puntaje = jugadores[i]->getPuntaje();
 			std::cout << "Jugador " << i << ": " << puntaje << " puntos" << std::endl;
 
 			if (puntaje > mejorPuntaje) {
@@ -101,6 +104,17 @@ public:
 			}
 		}
 
-		std::cout << "\nGana el jugador " << idGanador << " con " << mejorPuntaje << " puntos." << std::endl;
+		std::cout << "\nGana el jugador " << idGanador
+			<< " con " << mejorPuntaje << " puntos." << std::endl;
+	}
+
+	void jugar() {
+		iniciarJuego();
+		while (!verificarFinal()) {
+			elegirJuego();
+			jugarRonda();
+			cerrarRonda();
+		}
+		mostrarResultados();
 	}
 };
