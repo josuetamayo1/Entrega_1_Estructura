@@ -2,29 +2,28 @@
 //
 
 #include <iostream>
+#include <vector>
 #include "carta.h"
+#include "jugadores.h"
+#include "juego.h"
 
 int main()
 {
-	Carta carta1(1, 'R');
-	std::cout << "***********************************************************************************************************" << std::endl;
-	std::cout << "Bienvenido al juego" << std::endl;
-	std::cout << "Elija el tipo de juego que desea jugar, 1 es a la baja y 2 es a la alta" << std::endl;
-	std::cout << "Ingrese un numero entre 1 y 2: " << std::endl;
-	std::cout << "***********************************************************************************************************" << std::endl;
-	char numero;
-	std::cin >> numero;
-    if(numero== '2') {
-		std::cout << "Se juega a la alta" << std::endl;
-		std::cout << "***********************************************************************************************************" << std::endl;
 
-	}
-	else {
-		std::cout << "se juega a la baja" << std::endl;
-		std::cout << "***********************************************************************************************************" << std::endl;
-	}
+		std::vector<Carta> manoVacia;
+		std::vector<Jugadores*> jugadores;
 
-}
+		for (int id = 0; id < 4; id++) {
+			jugadores.push_back(new Jugadores(id, manoVacia, 0));
+		}
+		Juego juego(jugadores);
+		juego.jugar();
+
+		for (int i = 0; i < (int)jugadores.size(); i++) {
+			delete jugadores[i];
+		}
+		return 0;
+	}
 
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
 // Depurar programa: F5 o menú Depurar > Iniciar depuración
