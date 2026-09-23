@@ -48,4 +48,7 @@ public:
     int getPuntaje() {
         return puntaje;
     }
+    void recibirCarta(Carta carta) {
+        mazo.push_back(carta);
+    }
 };
