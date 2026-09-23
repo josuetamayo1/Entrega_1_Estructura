@@ -9,22 +9,33 @@
 
 int main()
 {
+    std::vector<Carta> manoVacia;
+    std::vector<Jugadores*> jugadores;
 
-		std::vector<Carta> manoVacia;
-		std::vector<Jugadores*> jugadores;
+    for (int id = 0; id < 4; id++) {
+        jugadores.push_back(new Jugadores(id, manoVacia, 0));
+    }
+    Juego juego(jugadores);
 
-		for (int id = 0; id < 4; id++) {
-			jugadores.push_back(new Jugadores(id, manoVacia, 0));
-		}
-		Juego juego(jugadores);
-		juego.jugar();
+    char opcion;
+    std::cout << "¿Quieres cargar una partida guardada? (s/n): ";
+    std::cin >> opcion;
 
-		for (int i = 0; i < (int)jugadores.size(); i++) {
-			delete jugadores[i];
-		}
-		return 0;
-	}
+    if (opcion == 's' || opcion == 'S') {
+        std::string nombreArchivo;
+        std::cout << "Nombre del archivo a cargar: ";
+        std::cin >> nombreArchivo;
+        juego.jugar(true, nombreArchivo);
+    }
+    else {
+        juego.jugar(false, "");
+    }
 
+    for (int i = 0; i < (int)jugadores.size(); i++) {
+        delete jugadores[i];
+    }
+    return 0;
+}
 // Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
 // Depurar programa: F5 o menú Depurar > Iniciar depuración
 
