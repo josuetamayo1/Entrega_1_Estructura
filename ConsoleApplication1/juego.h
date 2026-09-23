@@ -70,6 +70,14 @@ public:
 			int idx = (jugadorDecidor + i) % 4;
 			Carta cartaJugada = jugadores[idx]->jugarCarta();
 			rondaActual.recibirCarta(cartaJugada, idx);
+
+			char espera;
+			std::cout << "Escribe cualquier letra y presiona enter para continuar: ";
+			std::cin >> espera;
+			for(int l = 0; l < 30; l++) {
+				std::cout << std::endl;
+			}
+			
 		}
 	}
 
