@@ -45,7 +45,8 @@ Decisiones de diseño:
 -Fin de partida por conteo de rondas: en vez de revisar si algún jugador se quedó sin cartas, el juego termina automáticamente tras 7 rondas — justo las necesarias para repartir las 28 cartas iniciales, ya que cada ronda reparte exactamente 4.
 
 Diagrama UML: 
-<img width="1168" height="651" alt="image" src="https://github.com/user-attachments/assets/0f39c8da-1388-4a0a-a140-a93078ad0d87" />
+<img width="956" height="682" alt="image" src="https://github.com/user-attachments/assets/8a7690f7-1e8b-443c-962d-96816d559166" />
+
 
 
 
