@@ -15,7 +15,7 @@ Reglas del juego:
 -Los 4 jugadores juegan una carta cada uno, en orden rotativo a partir de quien decidió el modo. Entre cada turno el juego se pausa y limpia la pantalla, para que cada jugador vea su mano sin que los demás la vean ("pasar y jugar").
 
 -Al completarse las 4 jugadas se revela el ganador de la ronda:
-  -se busca la mejor carta del color elegido (la más alta si es alza, la más baja si es baja);
+  -se busca la mejor carta del color elegido (la más alta si es alza, la más baja si es a la baja);
   -si nadie jugó ese color, se ignora el filtro y se compara por número entre las 4 cartas jugadas.
   -El ganador de la ronda se queda con las 4 cartas jugadas (cada una suma un punto a su puntaje) y pasa a decidir el modo de la siguiente ronda.
   -La partida dura 7 rondas en total. Al terminar, gana quien acumuló más cartas.
@@ -25,7 +25,7 @@ Guardar y cargar partida:
 -Al iniciar el programa se pregunta si se quiere cargar una partida guardada; de ser así, se pide el nombre del archivo correspondiente.
 
 Estructura del proyecto:
-Archivo carta.h: clase Carta: Representa una carta (número + color). Objeto simple e inmutable; se maneja siempre por valor.
+Archivo carta.h: clase Carta: Representa una carta (número más el color). Objeto simple e incambiable que se maneja siempre por valor.
 
 Archivo jugadores.h clase Jugadores: Representa a un jugador: su mano, su puntaje, y sus acciones (jugar una carta, elegir el modo de una ronda, recibir cartas ganadas).
 
@@ -40,7 +40,7 @@ Decisiones de diseño:
 
 -Jugadores se maneja por el puntero (std::vector<Jugadores*>): a diferencia de Carta, cada jugador mantiene un estado que cambia durante toda la partida (mano, puntaje). Usar punteros asegura que exista una única instancia por jugador durante todo el juego, sin copias accidentales de ese estado.
 
--3 colores en vez de 2: con 11 números posibles, 2 colores solo darían 22 cartas que son insuficientes para repartir las 28 que hacen falta (4 jugadores × 7 cartas). Con 3 colores el mazo queda en 33 cartas, con margen de sobra.
+-3 colores en vez de 2: con 11 números posibles, 2 colores solo darían 22 cartas que son insuficientes para repartir las 28 que hacen falta (4 jugadores por 7 cartas). Con 3 colores el mazo queda en 33 cartas, con margen de sobra.
 
 -Fin de partida por conteo de rondas: en vez de revisar si algún jugador se quedó sin cartas, el juego termina automáticamente tras 7 rondas — justo las necesarias para repartir las 28 cartas iniciales, ya que cada ronda reparte exactamente 4.
 
