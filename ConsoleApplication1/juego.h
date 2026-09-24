@@ -88,7 +88,7 @@ public:
 
 			std::cout << "=========================" << std::endl;
 			char espera;
-			std::cout << "Escribe cualquier letra y pulsa Enter: ";
+			std::cout << "Escribe cualquier letra y pulsa Enter para cambiar de jugador: ";
 			std::cin >> espera;
 			for (int l = 0; l < 30; l++) {
 				std::cout << std::endl;
