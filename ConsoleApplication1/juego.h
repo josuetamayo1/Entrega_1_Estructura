@@ -15,6 +15,8 @@ private:
 	int jugadorDecidor;
 	int ronda;
 	Ronda rondaActual;
+	char colorActual;  
+	bool alzaActual;
 
 public:
 	Juego(std::vector<Jugadores*> _jugadores) : rondaActual('R', 'a') {
@@ -58,6 +60,8 @@ public:
 
 		jugadores[jugadorDecidor]->elegirJuego(colorElegido, esAlza);
 
+		colorActual = colorElegido;  // nuevo
+		alzaActual = esAlza;
 		char eleccion = esAlza ? 'a' : 'b';
 		rondaActual = Ronda(colorElegido, eleccion);
 
@@ -70,8 +74,9 @@ public:
 			int idx = (jugadorDecidor + i) % 4;
 
 			std::cout << "=========================" << std::endl;
-			std::cout << "Color de esta ronda: " << colorElegido << std::endl;
-			if (esAlza == true) {
+			std::cout << "Turno del Jugador " << idx << std::endl;
+			std::cout << "Color de esta ronda: " << colorActual << std::endl;
+			if (alzaActual == true) {
 				std::cout << "Se juega alza" << std::endl;
 			}
 			else {
