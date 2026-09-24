@@ -68,16 +68,26 @@ public:
 	void jugarRonda() {
 		for (int i = 0; i < 4; i++) {
 			int idx = (jugadorDecidor + i) % 4;
+
+			std::cout << "=========================" << std::endl;
+			std::cout << "Color de esta ronda: " << colorElegido << std::endl;
+			if (esAlza == true) {
+				std::cout << "Se juega alza" << std::endl;
+			}
+			else {
+				std::cout << "Se juega baja" << std::endl;
+			}
+
 			Carta cartaJugada = jugadores[idx]->jugarCarta();
 			rondaActual.recibirCarta(cartaJugada, idx);
 
+			std::cout << "=========================" << std::endl;
 			char espera;
-			std::cout << "Escribe cualquier letra y presiona enter para continuar: ";
+			std::cout << "Escribe cualquier letra y pulsa Enter: ";
 			std::cin >> espera;
-			for(int l = 0; l < 30; l++) {
+			for (int l = 0; l < 30; l++) {
 				std::cout << std::endl;
 			}
-			
 		}
 	}
 
